@@ -1,4 +1,13 @@
 <template>
+<div v-if="showScore">
+    <b-card
+    title="Results"
+    style="max-width: 20rem;"
+    >
+    You Scored {{score}} of {{questions.length}}
+    </b-card>
+</div>
+<template v-else>
   <div class="col-12 my-5 d-flex justify-content-between bg-secondary-subtle py-3">
     <h4>Chemistry > Organic Chemistry</h4>
 
@@ -28,33 +37,6 @@
     >
       {{ option.answerText }}
     </div>
-    <!-- <div class="form-check border rounded">
-      <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-      <label class="form-check-label" for="flexRadioDefault1">
-        Cytosine
-      </label>
-    </div>
-
-    <div class="form-check border rounded">
-      <input class="form-check-input d-inline-flex" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-      <label class="form-check-label" for="flexRadioDefault2">
-        Penicilin
-      </label>
-    </div>
-
-    <div class="form-check border rounded">
-      <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-      <label class="form-check-label" for="flexRadioDefault1">
-        Chlorophyl
-      </label>
-    </div>
-
-    <div class="form-check border rounded">
-      <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-      <label class="form-check-label" for="flexRadioDefault2">
-        Tetra Chloro Methane
-      </label>
-    </div> -->
 
     <div class="d-flex gap-2">
       <button @click="handlePrevClick" type="button" class="btn btn-primary">Prev</button>
@@ -70,14 +52,14 @@
     </button>
   </div>
 </template>
+</template>
 
 <script setup lang="ts">
-import { clear } from 'console';
 import { ref } from 'vue';
 
 const currentQuestion = ref(0);
 let answersMap = new Map();
-let showScore = false;
+let showScore = ref(false);
 let score = 0;
 let startQuiz = false;
 
@@ -146,7 +128,7 @@ const handleNextClick = () => {
   let nextQuestion = currentQuestion.value + 1;
   // if (isCorrect) score++;
 
-  nextQuestion < questions.length ? currentQuestion.value = nextQuestion : showScore = true;
+  nextQuestion < questions.length ? currentQuestion.value = nextQuestion : '';
   const options = document.getElementsByClassName("form-check");
   clearOptions(options)
   if (answersMap.has(currentQuestion.value.toString())) {
@@ -186,8 +168,10 @@ const clearOptions = (options: HTMLCollectionOf<Element>) => {
 const handleSubmit = () => {
   console.log('ansMap', answersMap)
   for (let i = 0; i < questions.length; i++) {
-    console.log(answersMap.get(i.toString()))
+    console.log(i, answersMap.get(i.toString()))
+    if (answersMap.get(i.toString()).isCorrect) score++;
   }
+  showScore.value = true;
 };
 </script>
 
