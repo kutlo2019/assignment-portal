@@ -4,6 +4,7 @@ export const studentRoutes: Array<RouteRecordRaw> = [
     {
       path: "",
       redirect: "student/dashboard",
+      name: "RedirectLink"
     },
     {
       path: "dashboard",
@@ -14,6 +15,21 @@ export const studentRoutes: Array<RouteRecordRaw> = [
       path: "assignments",
       name: "StudentAssignments",
       component: () => import("./views/AssignmentsView.vue"),
+    },
+    {
+      path: "assignments/:subjectId/",
+      name: "AssignmentsSubject",
+      component: () => import("./views/SubjectView.vue"),
+    },
+    {
+      path: "assignments/:subjectId/:chapterId",
+      name: "AssignmentsTopic",
+      component: () => import("./views/ChapterView.vue"),
+    },
+    {
+      path: "assignments/:subjectId/:chapterId/assignment/:topicId/",
+      name: "AssignmentsTopic",
+      component: () => import("./views/AssignmentView.vue"),
     },
     {
       path: "grades",

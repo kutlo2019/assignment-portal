@@ -4,5 +4,6 @@ export const authRoutes: Array<RouteRecordRaw> = [
   {
     path: "",
     redirect: "auth/login",
+    name: "AuthRedirect"
   },
 ];
